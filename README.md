@@ -1,3 +1,7 @@
+# anthony's change
+
+updated per https://stackoverflow.com/a/64205610/615493
+
 # typescript-on-browser-starter
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4cf13290-0bf6-4e80-a86e-7dd0d5371a5a/deploy-status)](https://app.netlify.com/sites/typescript-on-browser-starter/deploys)
 
