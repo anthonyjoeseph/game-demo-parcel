@@ -1,16 +1,16 @@
 import { Endomorphism } from 'fp-ts/function'
 import * as S from 'graphics-ts/lib/Shape'
-import {Sprite, updateSprite} from './Sprite'
+import {Sprite, tick as tickSprite} from './Sprite'
 
 export interface VelocitySprite extends Sprite {
   pixelsPerMillis: S.Point
 }
 
-export const updateVelocitySprite = (
+export const tick = (
   delta: number
 ): Endomorphism<VelocitySprite> => (vsprite) => ({
-  ...updateSprite(delta)(vsprite),
-  pixelsPerMillis: vsprite.pixelsPerMillis,
+  ...vsprite,
+  ...tickSprite(delta)(vsprite),
   position: {
     x: vsprite.position.x + (delta * vsprite.pixelsPerMillis.x),
     y: vsprite.position.y + (delta * vsprite.pixelsPerMillis.y),

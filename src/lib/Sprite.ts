@@ -13,34 +13,29 @@ export interface Dimensions {
 export interface SpriteFrame {
   offset: S.Point
   size: Dimensions
+  duration: number
 }
 export interface Sprite {
   readonly src: C.ImageSource
   readonly scale: Dimensions
   readonly position: S.Point
   readonly frames: Z.Zipper<SpriteFrame>
-  readonly millisPerFrame: O.Option<number>
-  readonly delta: number
+  readonly animationDelta: number
+  readonly animating: boolean
 }
 
-export const updateSprite = (
+export const tick = (
   deltaMillis: number
 ): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
   delta: pipe(
-    sprite.millisPerFrame,
-    O.chain(millisPerFrame => pipe(
-      sprite.delta + deltaMillis,
-      O.fromPredicate(newDelta => newDelta < millisPerFrame)
-    )),
+    sprite.animationDelta + deltaMillis,
+    O.fromPredicate(newDelta => newDelta < Z.extract(sprite.frames).duration),
     O.getOrElse(() => 0)
   ),
   frames: pipe(
-    sprite.millisPerFrame,
-    O.chain(millisPerFrame => pipe(
-      sprite.delta + deltaMillis,
-      O.fromPredicate(newDelta => newDelta >= millisPerFrame)
-    )),
+    sprite.animationDelta + deltaMillis,
+    O.fromPredicate(newDelta => newDelta >= Z.extract(sprite.frames).duration),
     O.fold(
       () => sprite.frames,
       () => pipe(
@@ -52,7 +47,7 @@ export const updateSprite = (
   ),
 })
 
-export const drawSprite = (sprite: Sprite) => 
+export const draw = (sprite: Sprite) => 
   C.drawImageFull(
     sprite.src,
     Z.extract(sprite.frames).offset.x, 

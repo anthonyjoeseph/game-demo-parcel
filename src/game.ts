@@ -7,14 +7,14 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { frameDeltaMillis$ } from './lib/Animation'
-import { drawSprite } from './lib/Sprite'
+import { draw as drawSprite } from './lib/Sprite'
+import { tick, VelocitySprite } from './lib/VelocitySprite'
 import { spriteImage } from './image'
-import { updateVelocitySprite, VelocitySprite } from './lib/VelocitySprite'
-import { initializeSprite } from './constants'
-import { handleKeys } from './handleKeys'
+import { input } from './logic/input'
 import { currentKeys$ } from './lib/Input'
+import { initializeSprite } from './logic/initialize'
 
-export const render$: r.Observable<C.Render<CanvasRenderingContext2D>> = pipe(
+export const render$ = pipe(
   r.combineLatest([
     frameDeltaMillis$,
     pipe(
@@ -27,11 +27,11 @@ export const render$: r.Observable<C.Render<CanvasRenderingContext2D>> = pipe(
     (
       sprite: O.Option<VelocitySprite>, 
       [[delta, initialSprite], keys]
-    ) => pipe(  
+    ) => pipe(
       sprite,
       O.getOrElse(() => initialSprite),
-      handleKeys(keys),
-      updateVelocitySprite(delta),
+      input(keys),
+      tick(delta),
       O.some
     ),
     O.none,
