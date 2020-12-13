@@ -1,8 +1,12 @@
 import { error } from "fp-ts/Console";
+import { pipe } from "fp-ts/pipeable";
 import { render$ } from "./game";
 import { renderTo$ } from "./lib/Animation";
 
-const gameLoop = renderTo$('canvas', () => error('canvas not found'))(render$)
+const gameLoop = pipe(
+  render$,
+  renderTo$('canvas', () => error('canvas not found')),
+)
 gameLoop.subscribe()
 
 // can't figure out a better way to do this

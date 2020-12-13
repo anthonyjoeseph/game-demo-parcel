@@ -1,5 +1,5 @@
 import { pipe } from 'fp-ts/pipeable'
-import { Endomorphism, flow } from 'fp-ts/function'
+import { Endomorphism } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/lib/Zipper'
 import * as S from 'graphics-ts/lib/Shape'
@@ -19,33 +19,38 @@ export interface Sprite {
   readonly scale: Dimensions
   readonly position: S.Point
   readonly frames: Z.Zipper<SpriteFrame>
-  readonly millisPerFrame: number
+  readonly millisPerFrame: O.Option<number>
   readonly delta: number
 }
 
 export const updateSprite = (
   deltaMillis: number
-): Endomorphism<Sprite> => (sprite) => {
-  const newDelta = pipe(
-    sprite.delta + deltaMillis,
-    O.fromPredicate(n => n < sprite.millisPerFrame),
-  )
-  return {
-    ...sprite,
-    delta: pipe(newDelta, O.getOrElse(() => 0)),
-    frames: pipe(
-      newDelta,
-      O.fold(
-        () => pipe(
-          sprite.frames,
-          Z.down,
-          O.getOrElse(() => Z.start(sprite.frames))
-        ),
-        () => sprite.frames
-      ),
+): Endomorphism<Sprite> => (sprite) => ({
+  ...sprite,
+  delta: pipe(
+    sprite.millisPerFrame,
+    O.chain(millisPerFrame => pipe(
+      sprite.delta + deltaMillis,
+      O.fromPredicate(newDelta => newDelta < millisPerFrame)
+    )),
+    O.getOrElse(() => 0)
+  ),
+  frames: pipe(
+    sprite.millisPerFrame,
+    O.chain(millisPerFrame => pipe(
+      sprite.delta + deltaMillis,
+      O.fromPredicate(newDelta => newDelta >= millisPerFrame)
+    )),
+    O.fold(
+      () => sprite.frames,
+      () => pipe(
+        sprite.frames,
+        Z.down,
+        O.getOrElse(() => Z.start(sprite.frames))
+      )
     ),
-  }
-}
+  ),
+})
 
 export const drawSprite = (sprite: Sprite) => 
   C.drawImageFull(

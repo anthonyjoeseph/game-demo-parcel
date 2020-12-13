@@ -8,11 +8,11 @@ export interface VelocitySprite extends Sprite {
 
 export const updateVelocitySprite = (
   delta: number
-): Endomorphism<VelocitySprite> => (sprite) => ({
-  ...updateSprite(delta)(sprite),
-  pixelsPerMillis: sprite.pixelsPerMillis,
+): Endomorphism<VelocitySprite> => (vsprite) => ({
+  ...updateSprite(delta)(vsprite),
+  pixelsPerMillis: vsprite.pixelsPerMillis,
   position: {
-    x: sprite.position.x + (delta * sprite.pixelsPerMillis.x),
-    y: sprite.position.y + (delta * sprite.pixelsPerMillis.y),
+    x: vsprite.position.x + (delta * vsprite.pixelsPerMillis.x),
+    y: vsprite.position.y + (delta * vsprite.pixelsPerMillis.y),
   },
 })

@@ -1,38 +1,45 @@
 import { pipe } from 'fp-ts/pipeable'
-import { without, upsert } from 'fp-ts-std/Array'
+import { without } from 'fp-ts-std/Array'
 import * as Eq from 'fp-ts/Eq'
 import * as O from 'fp-ts/Option'
+import * as A from 'fp-ts/Array'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
-import { Key } from 'ts-key-enum'
-
-const KeyEq = Eq.eqString as Eq.Eq<Key>
-const codeFromEvent = (event: Event): Key =>
-  (event as KeyboardEvent).code as Key
+import * as OB from 'fp-ts-rxjs/lib/Observable'
 
 type PressType = 'up' | 'down'
-interface Press { code: Key; type: PressType }
+interface Press { code: string; type: PressType }
+
+const pressFromEvent = (type: PressType) => (event: Event): Press => ({
+  code: (event as KeyboardEvent).code,
+  type,
+})
 
 export const currentKeys$ = pipe(
   r.merge(
     pipe(
       r.fromEvent(document, 'keydown'),
-      ro.map(codeFromEvent),
-      ro.map((code): Press => ({ code, type: 'down' })),
+      ro.map(pressFromEvent('down')),
     ),
     pipe(
       r.fromEvent(document, 'keyup'),
-      ro.map(codeFromEvent),
-      ro.map((code): Press => ({ code, type: 'up' })),
+      ro.map(pressFromEvent('up')),
     )
   ),
-  ro.scan((currentKeyCodes: Key[], press: Press) => {
+  ro.scan(({keys}: {keys: string[]; emit: boolean}, press: Press) => {
     if (press.type === 'up') {
-      return without(KeyEq)([press.code])(currentKeyCodes)
+      return {
+        keys: without(Eq.eqString)([press.code])(keys),
+        emit: true
+      }
     }
-    return upsert(KeyEq)(press.code)(currentKeyCodes)
-  }, []),
-  ro.startWith([] as Key[]),
+    if (pipe(keys, A.elem(Eq.eqString)(press.code))) {
+      return { keys: keys, emit: false }
+    }
+    return { keys: A.snoc(keys, press.code), emit: true }
+  }, {keys: [], emit: true}),
+  OB.filterMap(({keys, emit}) => pipe(keys, O.fromPredicate(() => emit))),
+  ro.startWith([] as string[]),
 )
 
 // adapted from from Juan Herrera's article here:
