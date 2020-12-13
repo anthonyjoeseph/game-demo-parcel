@@ -2,29 +2,30 @@ import { Endomorphism } from 'fp-ts/function'
 import { pipe } from 'fp-ts/pipeable'
 import * as M from 'fp-ts/Monoid'
 import * as A from 'fp-ts/Array'
-import * as S from 'graphics-ts/lib/Shape'
-import { VelocitySprite } from '../lib/VelocitySprite'
+import F from 'flatten-js'
 import { matchArrows } from './arrowKeys'
+import { Sprite } from './Sprite'
 
-const speedForKey = matchArrows<S.Point>({
-  left: { x: -0.05, y: 0 },
-  down: { x: 0, y: 0.03 },
-  right: { x: 0.05, y: 0 },
-  up: { x: 0, y: -0.03 },
+const speedForKey = matchArrows<F.Point>({
+  left: new F.Point(-0.05, 0),
+  down: new F.Point(0, 0.03),
+  right: new F.Point(0.05, 0),
+  up: new F.Point(0, -0.03),
 })
 
-const velocityMonoid = M.getStructMonoid<S.Point>({
-  x: M.monoidSum,
-  y: M.monoidSum,
-})
+const velocityMonoid: M.Monoid<F.Point> = {
+  concat: (left, right) =>
+    new F.Point(left.x + right.x, left.y + right.y),
+  empty: new F.Point(0, 0)
+}
 
 export const inputMovement = (
   keycodes: string[]
-): Endomorphism<VelocitySprite> => (sprite) => ({
+): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
-  pixelsPerMillis: pipe(
+  velocity: pipe(
     keycodes,
-    A.map(speedForKey(sprite.pixelsPerMillis)),
+    A.map(speedForKey(sprite.velocity)),
     M.fold(velocityMonoid),
   ),
 })

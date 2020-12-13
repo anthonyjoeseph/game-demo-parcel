@@ -7,8 +7,7 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { frameDeltaMillis$ } from './lib/Animation'
-import { draw as drawSprite } from './lib/Sprite'
-import { tick, VelocitySprite } from './lib/VelocitySprite'
+import { Sprite, draw as drawSprite, move, animate } from './logic/Sprite'
 import { spriteImage } from './image'
 import { input } from './logic/input'
 import { pressedKeys$ } from './lib/Input'
@@ -19,21 +18,30 @@ export const render$ = pipe(
     frameDeltaMillis$,
     pipe(
       OB.fromTask(spriteImage),
+      ro.tap(() => console.log('imageloaded')),
       OB.map(initializeSprite),
     )
   ]),
   ro.withLatestFrom(pressedKeys$),
   ro.scan(
     (
-      sprite: O.Option<VelocitySprite>, 
+      sprite: O.Option<Sprite>, 
       [[delta, initialSprite], keys]
-    ) => pipe(
-      sprite,
-      O.getOrElse(() => initialSprite),
-      input(keys),
-      tick(delta),
-      O.some
-    ),
+    ) => {
+      const a = pipe(
+        sprite,
+        O.getOrElse(() => initialSprite),
+      )
+      console.log(`sprite width: ${a.box.xmax - a.box.xmin}`)
+      const b = pipe(
+        a,
+        input(keys),
+        move(delta),
+        animate(delta),
+        O.some
+      )
+      return b
+    },
     O.none,
   ),
   OB.compact,

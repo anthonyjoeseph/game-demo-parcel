@@ -3,8 +3,8 @@ import { pipe } from 'fp-ts/pipeable'
 import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/Zipper'
 import * as NEA from 'fp-ts/NonEmptyArray'
-import { VelocitySprite } from '../lib/VelocitySprite'
 import { framesForKey } from './frames'
+import { Sprite } from './Sprite'
 
 const copyFocus = <A, B>(source: Z.Zipper<A>) => (
   dest: Z.Zipper<B>
@@ -18,7 +18,7 @@ const copyFocus = <A, B>(source: Z.Zipper<A>) => (
 
 export const inputAnimation = (
   keycodes: string[]
-): Endomorphism<VelocitySprite> => (sprite) => ({
+): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
   animating: keycodes.length > 0,
   frames: pipe(
