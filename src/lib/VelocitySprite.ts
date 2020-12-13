@@ -8,16 +8,11 @@ export interface VelocitySprite extends Sprite {
 
 export const updateVelocitySprite = (
   delta: number
-): Endomorphism<VelocitySprite> => (sprite) => {
-  if (sprite.pixelsPerMillis.x !== 0) {
-    console.log('moving!')
-  }
-  return ({
-    ...updateSprite(delta)(sprite),
-    pixelsPerMillis: sprite.pixelsPerMillis,
-    position: {
-      x: sprite.position.x + (delta * sprite.pixelsPerMillis.x),
-      y: sprite.position.y + (delta * sprite.pixelsPerMillis.y),
-    },
-  })
-}
+): Endomorphism<VelocitySprite> => (sprite) => ({
+  ...updateSprite(delta)(sprite),
+  pixelsPerMillis: sprite.pixelsPerMillis,
+  position: {
+    x: sprite.position.x + (delta * sprite.pixelsPerMillis.x),
+    y: sprite.position.y + (delta * sprite.pixelsPerMillis.y),
+  },
+})
