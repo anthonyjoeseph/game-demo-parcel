@@ -6,7 +6,7 @@ import { matchArrows } from './arrowKeys'
 export const MILLIS_PER_FRAME = 500
 
 const frameForIndex = (x: number, y: number): SpriteFrame => ({
-  box: new F.Box(16 * x, 18 * y, 16, 18),
+  box: new F.Box(16 * x, 18 * y, 16 * (x + 1), 18 * (y + 1)),
   duration: MILLIS_PER_FRAME
 })
 export const spriteFramesWithIndex = (index: number) => 
