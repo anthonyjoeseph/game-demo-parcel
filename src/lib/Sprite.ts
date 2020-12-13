@@ -29,7 +29,7 @@ export const tick = (
   deltaMillis: number
 ): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
-  delta: pipe(
+  animationDelta: pipe(
     sprite.animationDelta + deltaMillis,
     O.fromPredicate(newDelta => newDelta < Z.extract(sprite.frames).duration),
     O.getOrElse(() => 0)
