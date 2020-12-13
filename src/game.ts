@@ -27,21 +27,14 @@ export const render$ = pipe(
     (
       sprite: O.Option<Sprite>, 
       [[delta, initialSprite], keys]
-    ) => {
-      const a = pipe(
-        sprite,
-        O.getOrElse(() => initialSprite),
-      )
-      console.log(`sprite width: ${a.box.xmax - a.box.xmin}`)
-      const b = pipe(
-        a,
-        input(keys),
-        move(delta),
-        animate(delta),
-        O.some
-      )
-      return b
-    },
+    ) => pipe(
+      sprite,
+      O.getOrElse(() => initialSprite),
+      input(keys),
+      move(delta),
+      animate(delta),
+      O.some
+    ),
     O.none,
   ),
   OB.compact,
