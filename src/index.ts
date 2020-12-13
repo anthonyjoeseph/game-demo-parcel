@@ -1,7 +1,7 @@
 import { error } from "fp-ts/Console";
 import { pipe } from "fp-ts/pipeable";
 import { render$ } from "./game";
-import { renderTo$ } from "./lib/Animation";
+import { renderTo$ } from "./lib/Render";
 
 const gameLoop = pipe(
   render$,

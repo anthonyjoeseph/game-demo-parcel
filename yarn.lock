@@ -1865,18 +1865,6 @@ find-up@^5.0.0:
     locate-path "^6.0.0"
     path-exists "^4.0.0"
 
-flatten-interval-tree@^0.2.2:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/flatten-interval-tree/-/flatten-interval-tree-0.2.3.tgz#f2f14a955d13df47f3981449f7bfe2e0591f2628"
-  integrity sha512-S6jMsKihWMcrO1FwUvQGSBQz43bKqK3UH+9s89GIQHkUmfIeC/uMIqUf5t6eW+LglyFkp92eKS3oYkl8QbIz8g==
-
-flatten-js@^0.6.9:
-  version "0.6.9"
-  resolved "https://registry.yarnpkg.com/flatten-js/-/flatten-js-0.6.9.tgz#083e6b32ead1ba54137c4c1c282eac95b2911939"
-  integrity sha512-QcHgtymQ4FHx+cm1XVviAZwwc483xWoMhzKsUqi9MglZGyGsNyOzcSr3ccbKzn7ls0Ga0GOmZ538dt36h5yifA==
-  dependencies:
-    flatten-interval-tree "^0.2.2"
-
 follow-redirects@^1.0.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"

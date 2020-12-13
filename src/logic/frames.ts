@@ -1,12 +1,11 @@
 import * as Z from 'fp-ts-contrib/lib/Zipper'
-import F from 'flatten-js'
-import { SpriteFrame } from './Sprite'
+import { SpriteFrame } from '../lib/Sprite'
 import { matchArrows } from './arrowKeys'
 
 export const MILLIS_PER_FRAME = 500
 
 const frameForIndex = (x: number, y: number): SpriteFrame => ({
-  box: new F.Box(16 * x, 18 * y, 16 * (x + 1), 18 * (y + 1)),
+  box: {x: 16 * x, y: 18 * y, width: 16, height: 18},
   duration: MILLIS_PER_FRAME
 })
 export const spriteFramesWithIndex = (index: number) => 

@@ -4,7 +4,7 @@ import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/Zipper'
 import * as NEA from 'fp-ts/NonEmptyArray'
 import { framesForKey } from './frames'
-import { Sprite } from './Sprite'
+import { Sprite } from '../lib/Sprite'
 
 const copyFocus = <A, B>(source: Z.Zipper<A>) => (
   dest: Z.Zipper<B>

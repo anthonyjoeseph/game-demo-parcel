@@ -1,7 +1,5 @@
 # anthony's change
 
-TODO: Use [flatten-js](https://github.com/alexbol99/flatten-js)
-
 https://dev.to/martyhimmel/moving-a-sprite-sheet-character-with-javascript-3adg
 
 updated per https://stackoverflow.com/a/64205610/615493
