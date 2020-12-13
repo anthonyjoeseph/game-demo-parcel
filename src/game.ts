@@ -11,7 +11,7 @@ import { draw as drawSprite } from './lib/Sprite'
 import { tick, VelocitySprite } from './lib/VelocitySprite'
 import { spriteImage } from './image'
 import { input } from './logic/input'
-import { currentKeys$ } from './lib/Input'
+import { pressedKeys$ } from './lib/Input'
 import { initializeSprite } from './logic/initialize'
 
 export const render$ = pipe(
@@ -22,7 +22,7 @@ export const render$ = pipe(
       OB.map(initializeSprite),
     )
   ]),
-  ro.withLatestFrom(currentKeys$),
+  ro.withLatestFrom(pressedKeys$),
   ro.scan(
     (
       sprite: O.Option<VelocitySprite>, 

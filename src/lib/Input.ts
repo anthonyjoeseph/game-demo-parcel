@@ -15,7 +15,7 @@ const pressFromEvent = (type: PressType) => (event: Event): Press => ({
   type,
 })
 
-export const currentKeys$ = pipe(
+export const pressedKeys$ = pipe(
   r.merge(
     pipe(
       r.fromEvent(document, 'keydown'),

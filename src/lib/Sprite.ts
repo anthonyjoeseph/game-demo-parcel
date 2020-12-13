@@ -15,6 +15,7 @@ export interface SpriteFrame {
   size: Dimensions
   duration: number
 }
+
 export interface Sprite {
   readonly src: C.ImageSource
   readonly scale: Dimensions

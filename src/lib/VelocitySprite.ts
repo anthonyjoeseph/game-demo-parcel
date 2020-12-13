@@ -8,11 +8,15 @@ export interface VelocitySprite extends Sprite {
 
 export const tick = (
   delta: number
-): Endomorphism<VelocitySprite> => (vsprite) => ({
-  ...vsprite,
-  ...tickSprite(delta)(vsprite),
-  position: {
-    x: vsprite.position.x + (delta * vsprite.pixelsPerMillis.x),
-    y: vsprite.position.y + (delta * vsprite.pixelsPerMillis.y),
-  },
-})
+): Endomorphism<VelocitySprite> => (vsprite) => {
+  const a = ({
+    ...vsprite,
+    ...tickSprite(delta)(vsprite),
+    position: {
+      x: vsprite.position.x + (delta * vsprite.pixelsPerMillis.x),
+      y: vsprite.position.y + (delta * vsprite.pixelsPerMillis.y),
+    },
+  })
+  console.log(`delta: ${a.animationDelta}, frame: ${a.frames.lefts.length}`)
+  return a
+}
