@@ -1,6 +1,5 @@
 import {pipe} from 'fp-ts/pipeable'
 import * as C from 'graphics-ts/lib/Canvas'
-
 import {now} from 'fp-ts/Date'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
@@ -18,4 +17,6 @@ export const frameDeltaMillis$ = pipe(
 export const renderTo$ = (
   canvasId: string,
   onCanvasNotFound: () => IO.IO<void>
-) => OB.chain(flow(C.renderTo(canvasId, onCanvasNotFound), OB.fromIO))
+) => OB.chain<C.Render<CanvasRenderingContext2D>, void>(
+  flow(C.renderTo(canvasId, onCanvasNotFound), OB.fromIO)
+)

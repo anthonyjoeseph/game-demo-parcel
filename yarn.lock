@@ -1890,6 +1890,11 @@ fp-ts-rxjs@^0.6.11:
   resolved "https://registry.yarnpkg.com/fp-ts-rxjs/-/fp-ts-rxjs-0.6.11.tgz#675b2642f1469b6999d0015f0189e3a30e0779ea"
   integrity sha512-j/ZAIhxH+muBBrkn3pezeTAcojD7Ao4uoC/5cAeGYVqq/RcvXP7Ac0E8rfBFzVmzx/LgBH0KyWJwIFQbTc/KJQ==
 
+fp-ts-std@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/fp-ts-std/-/fp-ts-std-0.7.0.tgz#a343df926ba8c84fdfa2bafd3bf2fe6249cbae9e"
+  integrity sha512-aDk5XTPKehkVw5Lri74yzn2bHirlYujbLgbrwtdXzxTfBSYAoqB30mgJCYSgsJozOXGZVg2O23DrGvK4NwWHlw==
+
 fp-ts@^2.9.1:
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/fp-ts/-/fp-ts-2.9.1.tgz#24557f66f9221f8a1922fce6cbe2b8ea6d0f3929"
@@ -4051,6 +4056,11 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
+
+ts-key-enum@^3.0.4:
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/ts-key-enum/-/ts-key-enum-3.0.4.tgz#66377f08dd53f85af0270281bf7da3985e361f1b"
+  integrity sha512-7kQveOz+JRqhWobWvXmEpZWeRdFgf9WEWqhgguCzCSXk9TIXpEYESEXLowKN7rNI72b+7Srig4rVPo0f2WXhOQ==
 
 ts-loader@^8.0.12:
   version "8.0.12"
