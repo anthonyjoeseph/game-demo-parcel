@@ -14,7 +14,7 @@ import { pressedKeys$ } from './lib/Input'
 import { draw } from './lib/OffsetImage'
 import { GameObject, move, animate } from './logic/GameObject'
 import { initializeGameObject } from './logic/Initialize'
-import { windowBox$ } from './lib/Box'
+import { windowBox$ } from './lib/Window'
 
 export const render$ = pipe(
   r.combineLatest([

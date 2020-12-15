@@ -5,8 +5,9 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import { render$ } from './Game'
 import { renderTo$ } from './lib/Render'
 import { Key } from 'ts-key-enum'
-import { setHtmlElementBox, windowBox$ } from './lib/Box'
 import { flow } from 'fp-ts/lib/function'
+import { setHtmlElementBox } from './lib/HTML'
+import { windowBox$ } from './lib/Window'
 
 const gameLoop = pipe(
   render$,
