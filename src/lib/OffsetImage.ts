@@ -6,7 +6,6 @@ export interface OffsetImage {
   offset: Box
   output: Box
 }
-
 export const draw = ({ src, offset, output }: OffsetImage) =>
   C.drawImageFull(
     src,
