@@ -1,8 +1,6 @@
 import { Endomorphism, pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as S from 'graphics-ts/lib/Shape'
-import * as r from 'rxjs'
-import * as ro from 'rxjs/operators'
 import { Box } from '../lib/Box'
 import { contains } from '../lib/Box'
 import { Sprite, animate as animateSprite } from '../lib/Sprite'
@@ -13,19 +11,9 @@ export interface GameObject {
   readonly animating: boolean
 }
 
-export const windowBox$ = pipe(
-  r.merge(r.fromEvent(window, 'load'), r.fromEvent(window, 'resize')),
-  ro.map(
-    (): Box => ({
-      x: 0,
-      y: 0,
-      width: window.innerWidth,
-      height: window.innerHeight,
-    }),
-  ),
-)
-
-export const move = (delta: number, windowBox: Box): Endomorphism<GameObject> => (go) => ({
+export const move = (delta: number, windowBox: Box): Endomorphism<GameObject> => (
+  go,
+) => ({
   ...go,
   sprite: {
     ...go.sprite,
