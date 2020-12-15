@@ -1,6 +1,6 @@
 import * as Z from 'fp-ts-contrib/lib/Zipper'
 import { SpriteFrame } from '../lib/Sprite'
-import { matchArrows } from './arrowKeys'
+import { matchArrows } from './ArrowKeys'
 
 export const MILLIS_PER_FRAME = 500
 

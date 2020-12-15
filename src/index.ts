@@ -1,6 +1,6 @@
 import { error } from 'fp-ts/Console'
 import { pipe } from 'fp-ts/pipeable'
-import { render$ } from './game'
+import { render$ } from './Game'
 import { renderTo$ } from './lib/Render'
 
 const gameLoop = pipe(

@@ -7,21 +7,22 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { frameDeltaMillis$ } from './lib/Render'
-import { Sprite, toOffsetImage, move, animate } from './lib/Sprite'
-import { spriteImage } from './image'
-import { input } from './logic/input'
+import { toOffsetImage } from './lib/Sprite'
+import { spriteImage } from './Image'
+import { input } from './logic/Input'
 import { pressedKeys$ } from './lib/Input'
-import { initializeSprite } from './logic/initialize'
 import { draw } from './lib/OffsetImage'
+import { GameObject, move, animate } from './logic/GameObject'
+import { initializeGameObject } from './logic/Initialize'
 
 export const render$ = pipe(
-  r.combineLatest([frameDeltaMillis$, pipe(OB.fromTask(spriteImage), OB.map(initializeSprite))]),
+  r.combineLatest([frameDeltaMillis$, pipe(OB.fromTask(spriteImage), OB.map(initializeGameObject))]),
   ro.withLatestFrom(pressedKeys$),
   ro.scan(
-    (sprite: O.Option<Sprite>, [[delta, initialSprite], keys]) =>
+    (sprite: O.Option<GameObject>, [[delta, initialGameObject], keys]) =>
       pipe(
         sprite,
-        O.getOrElse(() => initialSprite),
+        O.getOrElse(() => initialGameObject),
         input(keys),
         move(delta),
         animate(delta),
@@ -30,10 +31,10 @@ export const render$ = pipe(
     O.none,
   ),
   OB.compact,
-  OB.map((sprite) =>
+  OB.map((gameObject) =>
     pipe(
       C.clearRect(S.rect(0, 0, window.screen.width, window.screen.height)),
-      R.chain(() => draw(toOffsetImage(sprite))),
+      R.chain(() => draw(toOffsetImage(gameObject.sprite))),
     ),
   ),
 )

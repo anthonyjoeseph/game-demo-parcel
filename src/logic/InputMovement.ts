@@ -3,8 +3,8 @@ import { pipe } from 'fp-ts/pipeable'
 import * as M from 'fp-ts/Monoid'
 import * as A from 'fp-ts/Array'
 import * as S from 'graphics-ts/lib/Shape'
-import { matchArrows } from './arrowKeys'
-import { Sprite } from '../lib/Sprite'
+import { matchArrows } from './ArrowKeys'
+import { GameObject } from './GameObject'
 
 const speedForKey = matchArrows<S.Point>({
   left: { x: -0.05, y: 0 },
@@ -18,7 +18,7 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
   y: M.monoidSum,
 })
 
-export const inputMovement = (keycodes: string[]): Endomorphism<Sprite> => (sprite) => ({
+export const inputMovement = (keycodes: string[]): Endomorphism<GameObject> => (sprite) => ({
   ...sprite,
   velocity: pipe(keycodes, A.map(speedForKey(sprite.velocity)), M.fold(velocityMonoid)),
 })

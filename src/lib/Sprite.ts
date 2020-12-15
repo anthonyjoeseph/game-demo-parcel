@@ -3,7 +3,6 @@ import { Endomorphism } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/lib/Zipper'
 import * as C from 'graphics-ts/lib/Canvas'
-import * as S from 'graphics-ts/lib/Shape'
 import { Box } from './Box'
 import { OffsetImage } from './OffsetImage'
 
@@ -18,7 +17,6 @@ export interface Sprite {
   readonly frames: Z.Zipper<SpriteFrame>
   readonly animationDelta: number
   readonly animating: boolean
-  readonly velocity: S.Point
 }
 
 export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) => ({
@@ -41,15 +39,6 @@ export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) =
         ),
     ),
   ),
-})
-
-export const move = (delta: number): Endomorphism<Sprite> => (sprite) => ({
-  ...sprite,
-  box: {
-    ...sprite.box,
-    x: sprite.box.x + delta * sprite.velocity.x,
-    y: sprite.box.y + delta * sprite.velocity.y,
-  },
 })
 
 export const toOffsetImage = (sprite: Sprite): OffsetImage => ({

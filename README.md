@@ -2,7 +2,7 @@
 
 Mirrors [this tutorial](https://dev.to/martyhimmel/moving-a-sprite-sheet-character-with-javascript-3adg)
 
-Started w/ webpack from typescript-on-browser-starter, moved to [parcel](https://parceljs.org/)
+Packaged with [parcel](https://parceljs.org/)
 
 # Build
 

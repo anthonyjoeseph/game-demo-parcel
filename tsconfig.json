@@ -18,7 +18,7 @@
   },
   "include": [
     "src/**/*"
-, "src/image.ts"  ],
+, "src/Image.ts"  ],
   "exclude": [
     "./node_modules/*"
   ]
