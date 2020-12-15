@@ -5,12 +5,14 @@ import * as A from 'fp-ts/Array'
 import * as S from 'graphics-ts/lib/Shape'
 import { matchArrows } from './ArrowKeys'
 import { GameObject } from './GameObject'
+import { contains } from '../lib/Box'
+import { Box } from '../lib/Box'
 
 const speedForKey = matchArrows<S.Point>({
-  left: { x: -0.05, y: 0 },
-  down: { x: 0, y: 0.03 },
-  right: { x: 0.05, y: 0 },
-  up: { x: 0, y: -0.03 },
+  left: { x: -0.5, y: 0 },
+  down: { x: 0, y: 0.3 },
+  right: { x: 0.5, y: 0 },
+  up: { x: 0, y: -0.3 },
 })
 
 const velocityMonoid = M.getStructMonoid<S.Point>({
@@ -18,7 +20,7 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
   y: M.monoidSum,
 })
 
-export const inputMovement = (keycodes: string[]): Endomorphism<GameObject> => (sprite) => ({
-  ...sprite,
-  velocity: pipe(keycodes, A.map(speedForKey(sprite.velocity)), M.fold(velocityMonoid)),
+export const inputMovement = (keycodes: string[]): Endomorphism<GameObject> => (go) => ({
+  ...go,
+  velocity: pipe(keycodes, A.map(speedForKey(go.velocity)), M.fold(velocityMonoid)),
 })

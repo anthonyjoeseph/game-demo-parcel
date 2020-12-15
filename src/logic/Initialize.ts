@@ -8,7 +8,7 @@ export const initializeGameObject = (src: C.ImageSource): GameObject => ({
     animationDelta: 0,
     frames: spriteFramesWithIndex(0),
     animating: false,
-    box: { x: 0, y: 0, width: 16, height: 18 },
+    box: { x: 0, y: 0, width: 50, height: 56 },
   },
   velocity: { x: 0, y: 0 },
 })
