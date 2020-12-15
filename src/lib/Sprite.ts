@@ -16,19 +16,18 @@ export interface Sprite {
   readonly box: Box
   readonly frames: Z.Zipper<SpriteFrame>
   readonly animationDelta: number
-  readonly animating: boolean
 }
 
 export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
   animationDelta: pipe(
     sprite.animationDelta + deltaMillis,
-    O.fromPredicate((newDelta) => sprite.animating && newDelta < Z.extract(sprite.frames).duration),
+    O.fromPredicate((newDelta) => newDelta < Z.extract(sprite.frames).duration),
     O.getOrElse(() => 0),
   ),
   frames: pipe(
     sprite.animationDelta + deltaMillis,
-    O.fromPredicate((newDelta) => sprite.animating && newDelta >= Z.extract(sprite.frames).duration),
+    O.fromPredicate((newDelta) => newDelta >= Z.extract(sprite.frames).duration),
     O.fold(
       () => sprite.frames,
       () =>

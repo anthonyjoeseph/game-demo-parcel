@@ -10,6 +10,7 @@ import { Sprite, animate as animateSprite } from '../lib/Sprite'
 export interface GameObject {
   readonly sprite: Sprite
   readonly velocity: S.Point
+  readonly animating: boolean
 }
 
 export const windowBox$ = pipe(
@@ -42,5 +43,5 @@ export const move = (delta: number, windowBox: Box): Endomorphism<GameObject> =>
 
 export const animate = (deltaMillis: number): Endomorphism<GameObject> => (go) => ({
   ...go,
-  sprite: animateSprite(deltaMillis)(go.sprite),
+  sprite: go.animating ? animateSprite(deltaMillis)(go.sprite) : go.sprite,
 })

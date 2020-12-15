@@ -19,7 +19,6 @@ r.fromEvent(window, 'keydown').subscribe((e) => {
   }
 })
 
-// fullscreen canvas
 const canvas = document.getElementById('canvas') as HTMLCanvasElement | null
 if (canvas) {
   r.merge(r.fromEvent(window, 'resize'), r.fromEvent(window, 'load')).subscribe(() => {
