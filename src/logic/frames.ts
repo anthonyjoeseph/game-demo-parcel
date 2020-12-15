@@ -5,10 +5,10 @@ import { matchArrows } from './arrowKeys'
 export const MILLIS_PER_FRAME = 500
 
 const frameForIndex = (x: number, y: number): SpriteFrame => ({
-  box: {x: 16 * x, y: 18 * y, width: 16, height: 18},
-  duration: MILLIS_PER_FRAME
+  box: { x: 16 * x, y: 18 * y, width: 16, height: 18 },
+  duration: MILLIS_PER_FRAME,
 })
-export const spriteFramesWithIndex = (index: number) => 
+export const spriteFramesWithIndex = (index: number): Z.Zipper<SpriteFrame> =>
   Z.fromNonEmptyArray<SpriteFrame>([
     frameForIndex(0, index),
     frameForIndex(1, index),

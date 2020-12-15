@@ -21,39 +21,34 @@ export interface Sprite {
   readonly velocity: S.Point
 }
 
-export const animate = (
-  deltaMillis: number
-): Endomorphism<Sprite> => (sprite) => ({
+export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
   animationDelta: pipe(
     sprite.animationDelta + deltaMillis,
-    O.fromPredicate(newDelta =>
-        sprite.animating && newDelta < Z.extract(sprite.frames).duration),
-    O.getOrElse(() => 0)
+    O.fromPredicate((newDelta) => sprite.animating && newDelta < Z.extract(sprite.frames).duration),
+    O.getOrElse(() => 0),
   ),
   frames: pipe(
     sprite.animationDelta + deltaMillis,
-    O.fromPredicate(newDelta =>
-        sprite.animating && newDelta >= Z.extract(sprite.frames).duration),
+    O.fromPredicate((newDelta) => sprite.animating && newDelta >= Z.extract(sprite.frames).duration),
     O.fold(
       () => sprite.frames,
-      () => pipe(
-        sprite.frames,
-        Z.down,
-        O.getOrElse(() => Z.start(sprite.frames))
-      )
+      () =>
+        pipe(
+          sprite.frames,
+          Z.down,
+          O.getOrElse(() => Z.start(sprite.frames)),
+        ),
     ),
   ),
 })
 
-export const move = (
-  delta: number
-): Endomorphism<Sprite> => (sprite) => ({
+export const move = (delta: number): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
   box: {
     ...sprite.box,
-    x: sprite.box.x + (delta * sprite.velocity.x),
-    y: sprite.box.y + (delta * sprite.velocity.y),
+    x: sprite.box.x + delta * sprite.velocity.x,
+    y: sprite.box.y + delta * sprite.velocity.y,
   },
 })
 

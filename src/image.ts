@@ -1,9 +1,5 @@
 import * as T from 'fp-ts/Task'
+import greenCap from './greenCap.png'
+import fetchIMG from 'fetch-img'
 
-export const spriteImage: T.Task<HTMLImageElement> = () => new Promise(resolve => {
-  let img = new Image();
-  img.src = 'https://opengameart.org/sites/default/files/Green-Cap-Character-16x18.png';
-  img.onload = function() {
-    resolve(img);
-  };
-})
+export const spriteImage: T.Task<HTMLImageElement> = () => fetchIMG(greenCap)

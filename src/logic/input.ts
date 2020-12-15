@@ -3,9 +3,5 @@ import { inputAnimation } from './inputAnimation'
 import { inputMovement } from './inputMovement'
 import { Sprite } from '../lib/Sprite'
 
-export const input = (
-  keycodes: string[]
-): Endomorphism<Sprite> => flow(
-  inputAnimation(keycodes),
-  inputMovement(keycodes)
-)
+export const input = (keycodes: string[]): Endomorphism<Sprite> =>
+  flow(inputAnimation(keycodes), inputMovement(keycodes))

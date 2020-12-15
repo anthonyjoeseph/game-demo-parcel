@@ -7,10 +7,10 @@ import { matchArrows } from './arrowKeys'
 import { Sprite } from '../lib/Sprite'
 
 const speedForKey = matchArrows<S.Point>({
-  left: {x: -0.05, y: 0},
-  down: {x: 0, y: 0.03},
-  right: {x: 0.05, y: 0},
-  up: {x: 0, y: -0.03},
+  left: { x: -0.05, y: 0 },
+  down: { x: 0, y: 0.03 },
+  right: { x: 0.05, y: 0 },
+  up: { x: 0, y: -0.03 },
 })
 
 const velocityMonoid = M.getStructMonoid<S.Point>({
@@ -18,13 +18,7 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
   y: M.monoidSum,
 })
 
-export const inputMovement = (
-  keycodes: string[]
-): Endomorphism<Sprite> => (sprite) => ({
+export const inputMovement = (keycodes: string[]): Endomorphism<Sprite> => (sprite) => ({
   ...sprite,
-  velocity: pipe(
-    keycodes,
-    A.map(speedForKey(sprite.velocity)),
-    M.fold(velocityMonoid),
-  ),
+  velocity: pipe(keycodes, A.map(speedForKey(sprite.velocity)), M.fold(velocityMonoid)),
 })

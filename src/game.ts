@@ -1,4 +1,4 @@
-import {pipe} from 'fp-ts/pipeable'
+import { pipe } from 'fp-ts/pipeable'
 import * as O from 'fp-ts/Option'
 import * as S from 'graphics-ts/lib/Shape'
 import * as C from 'graphics-ts/lib/Canvas'
@@ -15,31 +15,25 @@ import { initializeSprite } from './logic/initialize'
 import { draw } from './lib/OffsetImage'
 
 export const render$ = pipe(
-  r.combineLatest([
-    frameDeltaMillis$,
-    pipe(
-      OB.fromTask(spriteImage),
-      OB.map(initializeSprite),
-    )
-  ]),
+  r.combineLatest([frameDeltaMillis$, pipe(OB.fromTask(spriteImage), OB.map(initializeSprite))]),
   ro.withLatestFrom(pressedKeys$),
   ro.scan(
-    (
-      sprite: O.Option<Sprite>, 
-      [[delta, initialSprite], keys]
-    ) => pipe(
-      sprite,
-      O.getOrElse(() => initialSprite),
-      input(keys),
-      move(delta),
-      animate(delta),
-      O.some
-    ),
+    (sprite: O.Option<Sprite>, [[delta, initialSprite], keys]) =>
+      pipe(
+        sprite,
+        O.getOrElse(() => initialSprite),
+        input(keys),
+        move(delta),
+        animate(delta),
+        O.some,
+      ),
     O.none,
   ),
   OB.compact,
-  OB.map((sprite) => pipe(
-    C.clearRect(S.rect(0, 0, window.screen.width, window.screen.height)),
-    R.chain(() => draw(toOffsetImage(sprite))),
-  )),
+  OB.map((sprite) =>
+    pipe(
+      C.clearRect(S.rect(0, 0, window.screen.width, window.screen.height)),
+      R.chain(() => draw(toOffsetImage(sprite))),
+    ),
+  ),
 )
