@@ -5,8 +5,6 @@ import * as A from 'fp-ts/Array'
 import * as S from 'graphics-ts/lib/Shape'
 import { matchArrows } from './ArrowKeys'
 import { GameObject } from './GameObject'
-import { contains } from '../lib/Box'
-import { Box } from '../lib/Box'
 
 const speedForKey = matchArrows<S.Point>({
   left: { x: -0.5, y: 0 },

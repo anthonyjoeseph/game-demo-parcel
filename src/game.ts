@@ -12,19 +12,19 @@ import { spriteImage } from './Image'
 import { input } from './logic/Input'
 import { pressedKeys$ } from './lib/Input'
 import { draw } from './lib/OffsetImage'
-import { GameObject, move, animate } from './logic/GameObject'
+import { GameObject, move, animate, windowBox$ } from './logic/GameObject'
 import { initializeGameObject } from './logic/Initialize'
 
 export const render$ = pipe(
   r.combineLatest([frameDeltaMillis$, pipe(OB.fromTask(spriteImage), OB.map(initializeGameObject))]),
-  ro.withLatestFrom(pressedKeys$),
+  ro.withLatestFrom(pressedKeys$, windowBox$),
   ro.scan(
-    (sprite: O.Option<GameObject>, [[delta, initialGameObject], keys]) =>
+    (sprite: O.Option<GameObject>, [[delta, initialGameObject], keys, windowBox]) =>
       pipe(
         sprite,
         O.getOrElse(() => initialGameObject),
         input(keys),
-        move(delta),
+        move(delta, windowBox),
         animate(delta),
         O.some,
       ),

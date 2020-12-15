@@ -20,8 +20,8 @@ const pressFromEvent = (type: PressType) => (event: Event): Press => ({
 
 export const pressedKeys$ = pipe(
   r.merge(
-    pipe(r.fromEvent(document, 'keydown'), ro.map(pressFromEvent('down'))),
-    pipe(r.fromEvent(document, 'keyup'), ro.map(pressFromEvent('up'))),
+    pipe(r.fromEvent(window, 'keydown'), ro.map(pressFromEvent('down'))),
+    pipe(r.fromEvent(window, 'keyup'), ro.map(pressFromEvent('up'))),
   ),
   ro.scan(
     ({ keys }: { keys: string[]; emit: boolean }, press: Press) => {
@@ -50,12 +50,12 @@ export const pressedKeys$ = pipe(
 // adapted from from Juan Herrera's article here:
 // https://medium.com/@jdjuan/mouse-drag-with-rxjs-45861c4d0b7e
 export const mouseDrag$: r.Observable<O.Option<Event>> = pipe(
-  r.fromEvent(document, 'mousedown'),
+  r.fromEvent(window, 'mousedown'),
   ro.mergeMap((down) =>
     pipe(
-      r.fromEvent(document, 'mousemove'),
+      r.fromEvent(window, 'mousemove'),
       ro.map(O.some),
-      ro.takeUntil(r.fromEvent(document, 'mouseup')),
+      ro.takeUntil(r.fromEvent(window, 'mouseup')),
       ro.startWith(O.some(down)),
       ro.endWith(O.none),
     ),
