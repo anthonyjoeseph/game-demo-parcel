@@ -5,9 +5,8 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import { render$ } from './Game'
 import { renderTo$ } from './lib/Render'
 import { Key } from 'ts-key-enum'
-import { flow } from 'fp-ts/lib/function'
-import { setHtmlElementBox } from './lib/HTML'
-import { windowBox$ } from './lib/Window'
+import { windowRect$ } from './lib/Window'
+import { setDimensions } from 'graphics-ts/lib/Canvas'
 
 const gameLoop = pipe(
   render$,
@@ -30,7 +29,9 @@ r.fromEvent(window, 'keydown').subscribe((e) => {
 
 const canvas = document.getElementById('canvas') as HTMLCanvasElement | null
 if (canvas) {
-  pipe(windowBox$, OB.chain(flow(setHtmlElementBox(canvas), OB.fromIO)), (obs) =>
-    obs.subscribe(),
+  pipe(
+    windowRect$,
+    OB.chain((rect) => pipe(canvas, setDimensions(rect), OB.fromIO)),
+    (obs) => obs.subscribe(),
   )
 }

@@ -3,17 +3,17 @@ import { Endomorphism } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/lib/Zipper'
 import * as C from 'graphics-ts/lib/Canvas'
-import { Box } from './Box'
 import { OffsetImage } from './OffsetImage'
+import { Rect } from 'graphics-ts/lib/Shape'
 
 export interface SpriteFrame {
-  box: Box
+  rect: Rect
   duration: number
 }
 
 export interface Sprite {
   readonly src: C.ImageSource
-  readonly box: Box
+  readonly rect: Rect
   readonly frames: Z.Zipper<SpriteFrame>
   readonly animationDelta: number
 }
@@ -42,6 +42,6 @@ export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) =
 
 export const toOffsetImage = (sprite: Sprite): OffsetImage => ({
   src: sprite.src,
-  offset: Z.extract(sprite.frames).box,
-  output: sprite.box,
+  offset: Z.extract(sprite.frames).rect,
+  output: sprite.rect,
 })

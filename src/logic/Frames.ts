@@ -1,11 +1,12 @@
 import * as Z from 'fp-ts-contrib/lib/Zipper'
+import { rect } from 'graphics-ts/lib/Shape'
 import { SpriteFrame } from '../lib/Sprite'
 import { matchArrows } from './ArrowKeys'
 
 export const MILLIS_PER_FRAME = 500
 
 const frameForIndex = (x: number, y: number): SpriteFrame => ({
-  box: { x: 16 * x, y: 18 * y, width: 16, height: 18 },
+  rect: rect(16 * x, 18 * y, 16, 18),
   duration: MILLIS_PER_FRAME,
 })
 export const spriteFramesWithIndex = (index: number): Z.Zipper<SpriteFrame> =>

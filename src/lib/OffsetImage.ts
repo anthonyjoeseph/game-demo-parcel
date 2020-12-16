@@ -1,10 +1,10 @@
 import * as C from 'graphics-ts/lib/Canvas'
-import { Box } from './Box'
+import { Rect } from 'graphics-ts/lib/Shape'
 
 export interface OffsetImage {
   src: C.ImageSource
-  offset: Box
-  output: Box
+  offset: Rect
+  output: Rect
 }
 export const draw = ({ src, offset, output }: OffsetImage) =>
   C.drawImageFull(
