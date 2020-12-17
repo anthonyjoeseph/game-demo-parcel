@@ -14,9 +14,9 @@ const copyFocus = <A, B>(source: Z.Zipper<A>) => (dest: Z.Zipper<B>) =>
 
 export const inputAnimation = (keycodes: string[]): Endomorphism<GameObject> => (go) => ({
   ...go,
+  animating: keycodes.length > 0,
   sprite: {
     ...go.sprite,
-    animating: keycodes.length > 0,
     frames: pipe(
       keycodes,
       NEA.fromArray,
