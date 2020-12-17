@@ -3,7 +3,7 @@ import { rect } from 'graphics-ts/lib/Shape'
 import { SpriteFrame } from '../lib/Sprite'
 import { matchArrows } from './ArrowKeys'
 
-export const MILLIS_PER_FRAME = 500
+export const MILLIS_PER_FRAME = 200
 
 const frameForIndex = (x: number, y: number): SpriteFrame => ({
   rect: rect(16 * x, 18 * y, 16, 18),

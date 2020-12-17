@@ -7,10 +7,10 @@ import { matchArrows } from './ArrowKeys'
 import { GameObject } from './GameObject'
 
 const speedForKey = matchArrows<S.Point>({
-  left: { x: -0.5, y: 0 },
-  down: { x: 0, y: 0.3 },
-  right: { x: 0.5, y: 0 },
-  up: { x: 0, y: -0.3 },
+  left: { x: -0.15, y: 0 },
+  down: { x: 0, y: 0.1 },
+  right: { x: 0.15, y: 0 },
+  up: { x: 0, y: -0.1 },
 })
 
 const velocityMonoid = M.getStructMonoid<S.Point>({

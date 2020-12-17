@@ -6,11 +6,10 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { frameDeltaMillis$ } from './lib/Render'
-import { toOffsetImage } from './lib/Sprite'
+import { drawSprite } from './lib/Sprite'
 import { spriteImage } from './Image'
 import { input } from './logic/Input'
 import { pressedKeys$ } from './lib/Input'
-import { draw } from './lib/OffsetImage'
 import { GameObject, move, animate } from './logic/GameObject'
 import { initializeGameObject } from './logic/Initialize'
 import { windowRect$ } from './lib/Window'
@@ -38,7 +37,7 @@ export const render$ = pipe(
   OB.map(([gameObject, windowRect]) =>
     pipe(
       C.clearRect(windowRect),
-      R.chain(() => pipe(gameObject.sprite, toOffsetImage, draw)),
+      R.chain(() => drawSprite(gameObject.sprite)),
     ),
   ),
 )

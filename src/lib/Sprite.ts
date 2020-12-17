@@ -3,7 +3,6 @@ import { Endomorphism } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/lib/Zipper'
 import * as C from 'graphics-ts/lib/Canvas'
-import { OffsetImage } from './OffsetImage'
 import { Rect } from 'graphics-ts/lib/Shape'
 
 export interface SpriteFrame {
@@ -40,8 +39,18 @@ export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) =
   ),
 })
 
-export const toOffsetImage = (sprite: Sprite): OffsetImage => ({
-  src: sprite.src,
-  offset: Z.extract(sprite.frames).rect,
-  output: sprite.rect,
-})
+export const drawImageOffset = (src: C.ImageSource, offset: Rect, output: Rect) =>
+  C.drawImageFull(
+    src,
+    offset.x,
+    offset.y,
+    offset.width,
+    offset.height,
+    output.x,
+    output.y,
+    output.width,
+    output.height,
+  )
+
+export const drawSprite = (sprite: Sprite) =>
+  drawImageOffset(sprite.src, Z.extract(sprite.frames).rect, sprite.rect)
