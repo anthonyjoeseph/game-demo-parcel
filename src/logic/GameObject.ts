@@ -1,5 +1,6 @@
 import { Endomorphism, pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
+import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
 import { Rect } from 'graphics-ts/lib/Shape'
 import { contains } from '../lib/Collision'
@@ -11,25 +12,33 @@ export interface GameObject {
   readonly animating: boolean
 }
 
-export const move = (delta: number, windowRect: Rect): Endomorphism<GameObject> => (
-  go,
-) => ({
-  ...go,
-  sprite: {
-    ...go.sprite,
-    rect: pipe(
-      {
-        ...go.sprite.rect,
-        x: go.sprite.rect.x + delta * go.velocity.x,
-        y: go.sprite.rect.y + delta * go.velocity.y,
+export const move = (delta: number, windowRect: Rect): Endomorphism<GameObject> =>
+  pipe(
+    L.id<GameObject>(),
+    L.props('sprite', 'velocity'),
+    L.modify(({ velocity, sprite }) => ({
+      velocity,
+      sprite: {
+        ...sprite,
+        rect: pipe(
+          {
+            ...sprite.rect,
+            x: sprite.rect.x + delta * velocity.x,
+            y: sprite.rect.y + delta * velocity.y,
+          },
+          O.fromPredicate(contains(windowRect)),
+          O.getOrElse(() => sprite.rect),
+        ),
       },
-      O.fromPredicate(contains(windowRect)),
-      O.getOrElse(() => go.sprite.rect),
-    ),
-  },
-})
+    })),
+  )
 
-export const animate = (deltaMillis: number): Endomorphism<GameObject> => (go) => ({
-  ...go,
-  sprite: go.animating ? animateSprite(deltaMillis)(go.sprite) : go.sprite,
-})
+export const animate = (deltaMillis: number): Endomorphism<GameObject> =>
+  pipe(
+    L.id<GameObject>(),
+    L.props('sprite', 'animating'),
+    L.modify(({ sprite, animating }) => ({
+      animating,
+      sprite: animating ? animateSprite(deltaMillis)(sprite) : sprite,
+    })),
+  )

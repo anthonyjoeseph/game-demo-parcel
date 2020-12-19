@@ -2,6 +2,7 @@ import { Endomorphism } from 'fp-ts/function'
 import { pipe } from 'fp-ts/pipeable'
 import * as M from 'fp-ts/Monoid'
 import * as A from 'fp-ts/Array'
+import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
 import { matchArrows } from './ArrowKeys'
 import { GameObject } from './GameObject'
@@ -18,7 +19,11 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
   y: M.monoidSum,
 })
 
-export const inputMovement = (keycodes: string[]): Endomorphism<GameObject> => (go) => ({
-  ...go,
-  velocity: pipe(keycodes, A.map(speedForKey(go.velocity)), M.fold(velocityMonoid)),
-})
+export const inputMovement = (keycodes: string[]): Endomorphism<GameObject> =>
+  pipe(
+    L.id<GameObject>(),
+    L.prop('velocity'),
+    L.modify((velocity) =>
+      pipe(keycodes, A.map(speedForKey(velocity)), M.fold(velocityMonoid)),
+    ),
+  )

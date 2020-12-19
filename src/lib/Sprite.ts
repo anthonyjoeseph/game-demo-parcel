@@ -2,6 +2,7 @@ import { pipe } from 'fp-ts/pipeable'
 import { Endomorphism } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as Z from 'fp-ts-contrib/lib/Zipper'
+import * as L from 'monocle-ts/lib/Lens'
 import * as C from 'graphics-ts/lib/Canvas'
 import { Rect } from 'graphics-ts/lib/Shape'
 
@@ -17,27 +18,31 @@ export interface Sprite {
   readonly animationDelta: number
 }
 
-export const animate = (deltaMillis: number): Endomorphism<Sprite> => (sprite) => ({
-  ...sprite,
-  animationDelta: pipe(
-    sprite.animationDelta + deltaMillis,
-    O.fromPredicate((newDelta) => newDelta < Z.extract(sprite.frames).duration),
-    O.getOrElse(() => 0),
-  ),
-  frames: pipe(
-    sprite.animationDelta + deltaMillis,
-    O.fromPredicate((newDelta) => newDelta >= Z.extract(sprite.frames).duration),
-    O.fold(
-      () => sprite.frames,
-      () =>
-        pipe(
-          sprite.frames,
-          Z.down,
-          O.getOrElse(() => Z.start(sprite.frames)),
+export const animate = (deltaMillis: number): Endomorphism<Sprite> =>
+  pipe(
+    L.id<Sprite>(),
+    L.props('animationDelta', 'frames'),
+    L.modify(({ animationDelta, frames }) => ({
+      animationDelta: pipe(
+        animationDelta + deltaMillis,
+        O.fromPredicate((newDelta) => newDelta < Z.extract(frames).duration),
+        O.getOrElse(() => 0),
+      ),
+      frames: pipe(
+        animationDelta + deltaMillis,
+        O.fromPredicate((newDelta) => newDelta >= Z.extract(frames).duration),
+        O.fold(
+          () => frames,
+          () =>
+            pipe(
+              frames,
+              Z.down,
+              O.getOrElse(() => Z.start(frames)),
+            ),
         ),
-    ),
-  ),
-})
+      ),
+    })),
+  )
 
 export const drawImageOffset = (src: C.ImageSource, offset: Rect, output: Rect) =>
   C.drawImageFull(
