@@ -20,10 +20,6 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
 })
 
 export const inputMovement = (keycodes: string[]): Endomorphism<GameObject> =>
-  pipe(
-    L.id<GameObject>(),
-    L.prop('velocity'),
-    L.modify((velocity) =>
-      pipe(keycodes, A.map(speedForKey(velocity)), M.fold(velocityMonoid)),
-    ),
+  pipe(L.id<GameObject>(), L.prop('velocity'), (l) =>
+    l.set(pipe(keycodes, A.map(speedForKey({ x: 0, y: 0 })), M.fold(velocityMonoid))),
   )
