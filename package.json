@@ -30,7 +30,7 @@
     "fp-ts-std": "^0.7.0",
     "graphics-ts": "^1.1.0",
     "monocle-ts": "^2.3.3",
-    "rxjs": "^6.6.3",
+    "rxjs": "^7.0.0-beta.9",
     "src": "^1.1.2",
     "ts-key-enum": "^2.0.4"
   },

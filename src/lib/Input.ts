@@ -24,7 +24,7 @@ export const pressedKeys$ = pipe(
     pipe(r.fromEvent(window, 'keyup'), ro.map(pressFromEvent('up'))),
   ),
   ro.scan(
-    ({ keys }: { keys: string[]; emit: boolean }, press: Press) => {
+    ({ keys }: { keys: Array<string>; emit: boolean }, press: Press) => {
       if (press.type === 'up') {
         return {
           keys: without(Eq.eqString)([press.code])(keys),
@@ -44,7 +44,7 @@ export const pressedKeys$ = pipe(
       O.fromPredicate(() => emit),
     ),
   ),
-  ro.startWith([] as string[]),
+  ro.startWith([] as Array<string>),
 )
 
 // adapted from from Juan Herrera's article here:

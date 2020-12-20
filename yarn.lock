@@ -5415,6 +5415,13 @@ rxjs@^6.6.3:
   dependencies:
     tslib "^1.9.0"
 
+rxjs@^7.0.0-beta.9:
+  version "7.0.0-beta.9"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.0.0-beta.9.tgz#e6b4449512b04d12e8c710ac5c9213f2946c7797"
+  integrity sha512-yYP9+auIvtsmXRrrs86bFCryGFsrOBfHeXxQsgcqAAwNMinzT2ManfrmEhDQYm507cjIRIJ68FY39C62kqrdoA==
+  dependencies:
+    tslib "^1.9.0"
+
 safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@^5.2.0, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
