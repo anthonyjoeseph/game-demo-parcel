@@ -4,7 +4,7 @@ import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
 import { Rect } from 'graphics-ts/lib/Shape'
 import { contains } from '../lib/Collision'
-import { Sprite, animate as animateSprite } from '../lib/Sprite'
+import { Sprite } from '../lib/Sprite'
 
 export interface GameObject {
   readonly sprite: Sprite
@@ -30,15 +30,5 @@ export const move = (delta: number, windowRect: Rect): Endomorphism<GameObject> 
           O.getOrElse(() => sprite.rect),
         ),
       },
-    })),
-  )
-
-export const animate = (deltaMillis: number): Endomorphism<GameObject> =>
-  pipe(
-    L.id<GameObject>(),
-    L.props('sprite', 'animating'),
-    L.modify(({ sprite, animating }) => ({
-      animating,
-      sprite: animating ? animateSprite(deltaMillis)(sprite) : sprite,
     })),
   )
