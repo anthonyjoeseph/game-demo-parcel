@@ -13,7 +13,5 @@ export const windowInnerHeight: IO.IO<number> = () => window.innerHeight
 export const windowRect$ = pipe(
   r.merge(r.fromEvent(window, 'load'), r.fromEvent(window, 'resize')),
   OB.chain(() => OB.fromIO(sequenceT(IO.io)(windowInnerWidth, windowInnerHeight))),
-  ro.map(([width, height]) => {
-    return rect(0, 0, width, height)
-  }),
+  ro.map(([width, height]) => rect(0, 0, width, height)),
 )

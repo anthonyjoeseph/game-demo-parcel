@@ -1,24 +1,48 @@
-import * as Z from 'fp-ts-contrib/lib/Zipper'
-import { rect } from 'graphics-ts/lib/Shape'
-import { SpriteFrame } from '../lib/Sprite'
-import { matchArrows } from './ArrowKeys'
+import { pipe } from 'fp-ts/pipeable'
+import * as Ord from 'fp-ts/Ord'
+import * as O from 'fp-ts/Option'
+import * as A from 'fp-ts/Array'
+import * as NEA from 'fp-ts/NonEmptyArray'
+import * as R from 'fp-ts/Record'
+import * as Z from 'fp-ts-contrib/Zipper'
+import { contains } from 'fp-ts-std/String'
+import * as S from 'graphics-ts/lib/Shape'
+import { FrameRecord, toGraphicsRect } from '../lib/Spritesheet'
+import { getLastSemigroup } from 'fp-ts/lib/Semigroup'
 
 export const MILLIS_PER_FRAME = 200
 
-const frameForIndex = (x: number, y: number): SpriteFrame => ({
-  rect: rect(16 * x, 18 * y, 16, 18),
-  duration: MILLIS_PER_FRAME,
-})
-export const spriteFramesWithIndex = (index: number): Z.Zipper<SpriteFrame> =>
-  Z.fromNonEmptyArray<SpriteFrame>([
-    frameForIndex(0, index),
-    frameForIndex(1, index),
-    frameForIndex(0, index),
-    frameForIndex(2, index),
-  ])
-export const framesForKey = matchArrows({
-  down: spriteFramesWithIndex(0),
-  up: spriteFramesWithIndex(1),
-  left: spriteFramesWithIndex(2),
-  right: spriteFramesWithIndex(3),
-})
+export interface WalkingFrames {
+  left: Z.Zipper<S.Rect>
+  right: Z.Zipper<S.Rect>
+  down: Z.Zipper<S.Rect>
+  up: Z.Zipper<S.Rect>
+}
+
+const parseWalkingFrameDirection = (direction: string) => (frameRecord: FrameRecord) =>
+  pipe(
+    frameRecord.frames,
+    R.filterWithIndex(contains(direction)),
+    R.toArray,
+    A.sort(
+      pipe(
+        Ord.ordString,
+        Ord.contramap(([filenameKey]: [string, unknown]): string => filenameKey),
+      ),
+    ),
+    A.map(([, frameVal]) => frameVal.frame),
+    A.map(toGraphicsRect),
+    NEA.fromArray,
+  )
+export const parseWalkingFrames = (frameRecord: FrameRecord): O.Option<WalkingFrames> =>
+  pipe(
+    R.fromFoldableMap(getLastSemigroup<O.Option<NEA.NonEmptyArray<S.Rect>>>(), A.array)(
+      ['left', 'right', 'up', 'down'],
+      (direction: 'left' | 'right' | 'up' | 'down') => [
+        direction,
+        parseWalkingFrameDirection(direction)(frameRecord),
+      ],
+    ),
+    R.sequence(O.option),
+    O.map(R.map(Z.fromNonEmptyArray)),
+  )

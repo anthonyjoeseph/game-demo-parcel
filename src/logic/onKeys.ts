@@ -7,8 +7,7 @@ import * as ro from 'rxjs/operators'
 import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
 import { GameObject } from './GameObject'
-import { loopingAdvance } from '../lib/Sprite'
-import { framesForKey } from './Frames'
+import { loopingAdvance } from '../lib/Zipper'
 import { matchArrows } from './ArrowKeys'
 
 type ModifyState = Endomorphism<GameObject>
@@ -27,24 +26,15 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
 
 export const onKeys = (keys: NEA.NonEmptyArray<string>): r.Observable<ModifyState> =>
   pipe(
-    r.interval(300),
-    ro.mapTo(
-      pipe(
-        L.id<GameObject>(),
-        L.prop('sprite'),
-        L.prop('frames'),
-        L.modify(loopingAdvance),
-      ),
-    ),
+    r.timer(0, 300),
+    ro.mapTo(pipe(L.id<GameObject>(), L.prop('currentFrames'), L.modify(loopingAdvance))),
     ro.startWith(
       pipe(
         L.id<GameObject>(),
-        L.props('sprite', 'velocity'),
-        L.modify(({ sprite }) => ({
-          sprite: {
-            ...sprite,
-            frames: framesForKey(sprite.frames)(NEA.last(keys)),
-          },
+        L.props('currentFrames', 'walkingFrames', 'velocity'),
+        L.modify(({ currentFrames, walkingFrames }) => ({
+          currentFrames: matchArrows(walkingFrames)(currentFrames)(NEA.last(keys)),
+          walkingFrames,
           velocity: pipe(
             keys,
             A.map(speedForKey({ x: 0, y: 0 })),

@@ -10,3 +10,14 @@ Packaged with [parcel](https://parceljs.org/)
 yarn
 yarn serve
 ```
+
+# Package Sprites
+
+Using [spritesheet.js](https://github.com/krzysztof-o/spritesheet.js)
+
+### Installation ###
+Install [ImageMagick](http://www.imagemagick.org/)
+    - On versions 7.x and higher you must install the optional Legacy Tools
+
+### Run ###
+```yarn run spritesheet-js greenCap/*.png```

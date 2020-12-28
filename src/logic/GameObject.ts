@@ -1,34 +1,37 @@
 import { Endomorphism, pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
+import * as Z from 'fp-ts-contrib/Zipper'
 import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
-import { Rect } from 'graphics-ts/lib/Shape'
-import { contains } from '../lib/Collision'
-import { Sprite } from '../lib/Sprite'
+import * as C from 'graphics-ts/lib/Canvas'
+import * as G from 'geometric'
+import { toVerticies } from '../lib/Geometry'
+import { WalkingFrames } from './Frames'
 
 export interface GameObject {
-  readonly sprite: Sprite
+  readonly src: C.ImageSource
+  readonly rect: S.Rect
+  readonly currentFrames: Z.Zipper<S.Rect>
+  readonly walkingFrames: WalkingFrames
   readonly velocity: S.Point
-  readonly animating: boolean
 }
 
-export const move = (delta: number, windowRect: Rect): Endomorphism<GameObject> =>
+export const move = (delta: number, windowRect: S.Rect): Endomorphism<GameObject> =>
   pipe(
     L.id<GameObject>(),
-    L.props('sprite', 'velocity'),
-    L.modify(({ velocity, sprite }) => ({
+    L.props('rect', 'velocity'),
+    L.modify(({ velocity, rect }) => ({
       velocity,
-      sprite: {
-        ...sprite,
-        rect: pipe(
-          {
-            ...sprite.rect,
-            x: sprite.rect.x + delta * velocity.x,
-            y: sprite.rect.y + delta * velocity.y,
-          },
-          O.fromPredicate(contains(windowRect)),
-          O.getOrElse(() => sprite.rect),
+      rect: pipe(
+        {
+          ...rect,
+          x: rect.x + delta * velocity.x,
+          y: rect.y + delta * velocity.y,
+        },
+        O.fromPredicate((spriteRect) =>
+          G.polygonInPolygon(toVerticies(spriteRect), toVerticies(windowRect)),
         ),
-      },
+        O.getOrElse(() => rect),
+      ),
     })),
   )

@@ -8,13 +8,10 @@ import { GameObject } from './GameObject'
 export const onNoKeys = (): r.Observable<Endomorphism<GameObject>> =>
   pipe(
     L.id<GameObject>(),
-    L.props('velocity', 'sprite'),
-    L.modify(({ sprite }) => ({
+    L.props('velocity', 'currentFrames'),
+    L.modify(({ currentFrames }) => ({
       velocity: { x: 0, y: 0 },
-      sprite: {
-        ...sprite,
-        frames: Z.start(sprite.frames),
-      },
+      currentFrames: Z.start(currentFrames),
     })),
     OB.of,
   )
