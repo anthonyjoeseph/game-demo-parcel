@@ -38,7 +38,7 @@ export const parseWalkingFrames = (frameRecord: FrameRecord): O.Option<WalkingFr
   pipe(
     R.fromFoldableMap(getLastSemigroup<O.Option<NEA.NonEmptyArray<S.Rect>>>(), A.array)(
       ['left', 'right', 'up', 'down'],
-      (direction: 'left' | 'right' | 'up' | 'down') => [
+      (direction: keyof WalkingFrames) => [
         direction,
         parseWalkingFrameDirection(direction)(frameRecord),
       ],
