@@ -3,6 +3,7 @@ import * as Ord from 'fp-ts/Ord'
 import * as O from 'fp-ts/Option'
 import * as A from 'fp-ts/Array'
 import * as NEA from 'fp-ts/NonEmptyArray'
+import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
 import * as R from 'fp-ts/Record'
 import * as Z from 'fp-ts-contrib/Zipper'
 import { contains } from 'fp-ts-std/String'
@@ -36,13 +37,14 @@ const parseWalkingFrameDirection = (direction: string) => (frameRecord: FrameRec
   )
 export const parseWalkingFrames = (frameRecord: FrameRecord): O.Option<WalkingFrames> =>
   pipe(
-    R.fromFoldableMap(getLastSemigroup<O.Option<NEA.NonEmptyArray<S.Rect>>>(), A.array)(
-      ['left', 'right', 'up', 'down'],
-      (direction: keyof WalkingFrames) => [
-        direction,
-        parseWalkingFrameDirection(direction)(frameRecord),
-      ],
-    ),
+    R.fromFoldableMap(
+      getLastSemigroup<O.Option<RNEA.ReadonlyNonEmptyArray<S.Rect>>>(),
+      A.array,
+    )(['left', 'right', 'up', 'down'], (direction: keyof WalkingFrames) => [
+      direction,
+      parseWalkingFrameDirection(direction)(frameRecord),
+    ]),
     R.sequence(O.option),
+    O.map(R.map((a) => a as NEA.NonEmptyArray<S.Rect>)),
     O.map(R.map(Z.fromNonEmptyArray)),
   )
