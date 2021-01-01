@@ -8,7 +8,9 @@ export interface HexColorBrand {
 export const HexColorCodec = t.brand(
   t.string,
   (h): h is t.Branded<string, HexColorBrand> =>
-    h.startsWith('#') && (h.length === 7 || h.length === 9) && /[0-9A-Fa-f]{6}/g.test(h),
+    h.startsWith('#') &&
+    (h.length === 7 || h.length === 9) &&
+    /[0-9A-Fa-f]{8}|[0-9A-Fa-f]{6}/g.test(h.substring(1)),
   'HexColor',
 )
 
