@@ -51,12 +51,14 @@ const TextCodec = t.intersection([
   ]),
 ])
 
+export type Text = t.TypeOf<typeof TextCodec>
+
 const FrameCodec = t.type({
   tileid: t.Int,
   duration: t.Int,
 })
 
-export type FrameCodec = t.TypeOf<typeof FrameCodec>
+export type Frame = t.TypeOf<typeof FrameCodec>
 
 const AnimationCodec = t.readonlyArray(FrameCodec)
 
@@ -70,10 +72,14 @@ const ChunkCodec = t.type({
   y: t.Int,
 })
 
+export type Chunk = t.TypeOf<typeof ChunkCodec>
+
 const PointCodec = t.type({
   x: t.number,
   y: t.number,
 })
+
+export type Point = t.TypeOf<typeof PointCodec>
 
 const GridCodec = t.intersection([
   t.type({
@@ -90,6 +96,8 @@ const GridCodec = t.intersection([
     { orientation: 'orthogonal' },
   ),
 ])
+
+export type Grid = t.TypeOf<typeof GridCodec>
 
 const PropertyCodec = t.intersection([
   t.type({ name: t.string }),
@@ -123,11 +131,15 @@ const PropertyCodec = t.intersection([
   ]),
 ])
 
+export type Property = t.TypeOf<typeof PropertyCodec>
+
 const TerrainCodec = t.type({
   name: t.string,
   properties: t.readonlyArray(PropertyCodec),
   tile: t.Int,
 })
+
+export type Terrain = t.TypeOf<typeof TerrainCodec>
 
 const WangColorCodec = t.type({
   color: HexColorCodec,
@@ -135,6 +147,8 @@ const WangColorCodec = t.type({
   probability: t.number,
   tile: t.Int,
 })
+
+export type WangColor = t.TypeOf<typeof WangColorCodec>
 
 const WangTileCodec = t.intersection([
   t.type({
@@ -146,6 +160,8 @@ const WangTileCodec = t.intersection([
   withFallback(t.type({ vflip: t.boolean }), { vflip: false }),
 ])
 
+export type WangTile = t.TypeOf<typeof WangTileCodec>
+
 const WangSetCodec = t.type({
   cornercolors: t.readonlyArray(WangColorCodec),
   edgecolors: t.readonlyArray(WangColorCodec),
@@ -154,6 +170,8 @@ const WangSetCodec = t.type({
   tile: t.Int,
   wangtiles: t.readonlyArray(WangTileCodec),
 })
+
+export type WangSet = t.TypeOf<typeof WangSetCodec>
 
 const ObjectCodec = t.intersection([
   t.type({
@@ -178,6 +196,8 @@ const ObjectCodec = t.intersection([
     text: TextCodec,
   }),
 ])
+
+export type TiledObject = t.TypeOf<typeof ObjectCodec>
 
 export interface ZeroToOneBrand {
   readonly ZeroToOne: unique symbol
@@ -293,26 +313,20 @@ const TileCodec = t.intersection([
     image: t.string,
     imageheight: t.Int,
     imagewidth: t.Int,
-    objectgroup: LayerCodec,
+    objectgroup: ObjectGroupCodec,
     probability: t.number,
     type: t.string,
   }),
 ])
+
+export type Tile = t.TypeOf<typeof TileCodec>
 
 const TileOffsetCodec = t.type({
   x: t.number,
   y: t.number,
 })
 
-const ObjectGroupTile = t.intersection([
-  TileCodec,
-  t.type({
-    type: t.literal('objectgroup'),
-  }),
-  t.partial({
-    objectgroup: LayerCodec,
-  }),
-])
+export type TileOffset = t.TypeOf<typeof TileOffsetCodec>
 
 const TilesetCodec = t.intersection([
   t.type({
@@ -360,13 +374,17 @@ const TilesetCodec = t.intersection([
   }),
 ])
 
-const ObjectTemplateCodec = t.type({
+export type Tileset = t.TypeOf<typeof TilesetCodec>
+
+export const ObjectTemplateCodec = t.type({
   type: t.literal('template'),
   tileset: TilesetCodec,
   object: ObjectCodec,
 })
 
-const MapCodec = t.intersection([
+export type ObjectTemplate = t.TypeOf<typeof ObjectTemplateCodec>
+
+export const MapCodec = t.intersection([
   t.type({
     height: t.Int,
     layers: t.readonlyArray(LayerCodec),
@@ -423,3 +441,5 @@ const MapCodec = t.intersection([
     }),
   ]),
 ])
+
+export type Map = t.TypeOf<typeof MapCodec>
