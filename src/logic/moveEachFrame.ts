@@ -1,5 +1,4 @@
 import { Endomorphism, pipe } from 'fp-ts/function'
-import * as S from 'graphics-ts/lib/Shape'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { GameObject, move } from './GameObject'
