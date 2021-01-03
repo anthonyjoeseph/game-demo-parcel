@@ -3,7 +3,6 @@ import * as S from 'graphics-ts/lib/Shape'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { GameObject, move } from './GameObject'
-import { frameDeltaMillis$ } from 'game-ts/dist/Render'
 import { windowRect$ } from 'game-ts/dist/Window'
 
 export const moveEachFrame = (
@@ -16,8 +15,8 @@ export const moveEachFrame = (
     ro.distinctUntilChanged(),
     ro.switchMap(([moving, windowRect]) =>
       pipe(
-        r.iif(() => moving, frameDeltaMillis$, r.EMPTY),
-        ro.map((delta) => move(delta, windowRect)),
+        r.iif(() => moving, r.interval(1000 / 60), r.EMPTY),
+        ro.map(() => move(1000 / 60, windowRect)),
       ),
     ),
   )
