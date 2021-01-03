@@ -22,5 +22,5 @@ export const input = (
         ),
       ),
     ),
-    moveEachFrame,
+    moveEachFrame(state$),
   )
