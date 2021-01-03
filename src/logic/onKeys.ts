@@ -7,7 +7,7 @@ import * as ro from 'rxjs/operators'
 import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
 import { GameObject } from './GameObject'
-import { loopingAdvance } from '../lib/Zipper'
+import { loopingAdvance } from 'game-ts/dist/Zipper'
 import { matchArrows } from './ArrowKeys'
 
 type ModifyState = Endomorphism<GameObject>

@@ -1,5 +1,5 @@
 import * as Z from 'fp-ts-contrib/Zipper'
-import { drawImageOffset } from '../lib/Image'
+import { drawImageOffset } from 'game-ts/dist/Image'
 import { GameObject } from './GameObject'
 
 export const draw = (state: GameObject) =>

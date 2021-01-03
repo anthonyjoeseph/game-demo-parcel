@@ -5,7 +5,7 @@ import * as L from 'monocle-ts/lib/Lens'
 import * as S from 'graphics-ts/lib/Shape'
 import * as C from 'graphics-ts/lib/Canvas'
 import * as G from 'geometric'
-import { toVerticies } from '../lib/Geometry'
+import { toVerticies } from 'game-ts/dist/Geometry'
 import { WalkingFrames } from './Frames'
 
 export interface GameObject {

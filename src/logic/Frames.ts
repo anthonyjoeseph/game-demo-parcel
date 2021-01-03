@@ -8,7 +8,7 @@ import * as R from 'fp-ts/Record'
 import * as Z from 'fp-ts-contrib/Zipper'
 import { contains } from 'fp-ts-std/String'
 import * as S from 'graphics-ts/lib/Shape'
-import { FrameRecord, toGraphicsRect } from '../lib/Spritesheet'
+import { FrameRecord, toGraphicsRect } from 'game-ts/dist/Spritesheet'
 import { getLastSemigroup } from 'fp-ts/lib/Semigroup'
 
 export const MILLIS_PER_FRAME = 200
