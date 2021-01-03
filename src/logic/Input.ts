@@ -1,13 +1,13 @@
-import { Endomorphism, pipe } from 'fp-ts/function'
+import { Endomorphism, flow, pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as NEA from 'fp-ts/NonEmptyArray'
 import * as r from 'rxjs'
 import * as ro from 'rxjs/operators'
 import { GameObject } from './GameObject'
 import { pressedKeys$ } from 'game-ts/dist/Input'
-import { onKeys } from './onKeys'
+import { startWalking } from './startWalking'
 import { moveEachFrame } from './moveEachFrame'
-import { onNoKeys } from './onNoKeys'
+import { stopWalking } from './stopWalking'
 
 export const input = (
   state$: r.Observable<GameObject>,
@@ -15,7 +15,12 @@ export const input = (
   r.merge(
     pipe(
       pressedKeys$,
-      ro.switchMap((keys) => pipe(keys, NEA.fromArray, O.fold(onNoKeys, onKeys))),
+      ro.switchMap(
+        flow(
+          NEA.fromArray,
+          O.fold(() => stopWalking, startWalking),
+        ),
+      ),
     ),
     moveEachFrame,
   )

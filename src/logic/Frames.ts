@@ -20,7 +20,10 @@ export interface WalkingFrames {
   up: Z.Zipper<S.Rect>
 }
 
-const parseWalkingFrameDirection = (direction: string) => (frameRecord: FrameRecord) =>
+type Frame = FrameRecord['frames'][string]
+const parseWalkingFrameDirection = (direction: string) => (
+  frameRecord: FrameRecord,
+): O.Option<RNEA.ReadonlyNonEmptyArray<S.Rect>> =>
   pipe(
     frameRecord.frames,
     R.filterWithIndex(contains(direction)),
@@ -28,12 +31,12 @@ const parseWalkingFrameDirection = (direction: string) => (frameRecord: FrameRec
     A.sort(
       pipe(
         Ord.ordString,
-        Ord.contramap(([filenameKey]: [string, unknown]): string => filenameKey),
+        Ord.contramap(([filenameKey]: [string, Frame]): string => filenameKey),
       ),
     ),
     A.map(([, frameVal]) => frameVal.frame),
     A.map(toGraphicsRect),
-    NEA.fromArray,
+    RNEA.fromArray,
   )
 export const parseWalkingFrames = (frameRecord: FrameRecord): O.Option<WalkingFrames> =>
   pipe(

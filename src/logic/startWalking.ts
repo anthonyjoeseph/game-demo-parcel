@@ -24,7 +24,9 @@ const velocityMonoid = M.getStructMonoid<S.Point>({
   y: M.monoidSum,
 })
 
-export const onKeys = (keys: NEA.NonEmptyArray<string>): r.Observable<ModifyState> =>
+export const startWalking = (
+  keys: NEA.NonEmptyArray<string>,
+): r.Observable<ModifyState> =>
   pipe(
     r.timer(0, 300),
     ro.mapTo(pipe(L.id<GameObject>(), L.prop('currentFrames'), L.modify(loopingAdvance))),
