@@ -14,10 +14,10 @@ export const moveEachFrame = (
     ro.map((s) => !(s.velocity.x === 0 && s.velocity.y === 0)),
     ro.withLatestFrom(windowRect$),
     ro.distinctUntilChanged(),
-    ro.switchMap(([moving, rect]) =>
+    ro.switchMap(([moving, windowRect]) =>
       pipe(
         r.iif(() => moving, frameDeltaMillis$, r.EMPTY),
-        ro.map((delta) => move(delta, rect)),
+        ro.map((delta) => move(delta, windowRect)),
       ),
     ),
   )
