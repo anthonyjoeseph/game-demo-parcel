@@ -9,6 +9,7 @@ import { gameLoop$ } from 'game-ts/dist/Render'
 import { initializeGameObject } from './logic/Initialize'
 import { input } from './logic/Input'
 import { draw } from './logic/Draw'
+import { flow } from 'fp-ts/lib/function'
 
 const canvasId = 'canvas'
 
@@ -37,16 +38,12 @@ r.merge(
   // prevent arrow keys from scrolling the page
   pipe(
     r.fromEvent(window, 'keydown'),
-    OB.map((e) => {
-      const code = (e as KeyboardEvent).code
-      if (
-        code === Key.ArrowUp ||
-        code === Key.ArrowDown ||
-        code === Key.ArrowLeft ||
-        code === Key.ArrowRight
-      ) {
-        e.preventDefault()
-      }
-    }),
+    OB.filter(
+      flow(
+        (e) => (e as KeyboardEvent).code as Key,
+        [Key.ArrowUp, Key.ArrowDown, Key.ArrowRight, Key.ArrowLeft].includes,
+      ),
+    ),
+    OB.map((e) => e.preventDefault()),
   ),
 ).subscribe()
