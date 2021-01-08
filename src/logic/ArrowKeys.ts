@@ -10,17 +10,10 @@ export const matchArrows = <A>({
   down: A
   right: A
   up: A
-}) => (defaultVal: A) => (keycode: string) => {
-  switch (keycode) {
-    case Key.ArrowLeft:
-      return left
-    case Key.ArrowDown:
-      return down
-    case Key.ArrowRight:
-      return right
-    case Key.ArrowUp:
-      return up
-    default:
-      return defaultVal
-  }
-}
+}) => (keycode: string) =>
+  (({
+    [Key.ArrowLeft]: left,
+    [Key.ArrowDown]: down,
+    [Key.ArrowRight]: right,
+    [Key.ArrowUp]: up,
+  } as Record<string, A>)[keycode])

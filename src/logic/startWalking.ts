@@ -35,11 +35,12 @@ export const startWalking = (
         L.id<GameObject>(),
         L.props('currentFrames', 'walkingFrames', 'velocity'),
         L.modify(({ currentFrames, walkingFrames }) => ({
-          currentFrames: matchArrows(walkingFrames)(currentFrames)(NEA.last(keys)),
+          currentFrames: matchArrows(walkingFrames)(NEA.last(keys)) ?? currentFrames,
           walkingFrames,
           velocity: pipe(
             keys,
-            A.map(speedForKey({ x: 0, y: 0 })),
+            A.map(speedForKey),
+            A.map((a) => a ?? { x: 0, y: 0 }),
             M.fold(velocityMonoid),
           ),
         })),
