@@ -2998,10 +2998,10 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-game-ts@^0.7.3:
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/game-ts/-/game-ts-0.7.3.tgz#01b29b90f7e01ad7f5c9e6bcc1c8993d22e072a2"
-  integrity sha512-2Qsdtky0keSWZ87GaNQKzlKLWYgqb1CrhDhqtDiYngill7TgUy3eBTLBq3XnhKrIMkY5EXZG4CPm3ohss/stqg==
+game-ts@^0.7.6:
+  version "0.7.6"
+  resolved "https://registry.yarnpkg.com/game-ts/-/game-ts-0.7.6.tgz#ec3aee71a4d3046dcf36991129361dc681c90547"
+  integrity sha512-kMO8xoEbmqA448j26HgWPLfq71AeubJJeGQ5ineDKkwaePQq9W8iw/QNgvZOa2A8E6aYSHJCOwW+gXe5LGCYfg==
   dependencies:
     "@juggle/resize-observer" "^3.2.0"
     assert "^2.0.0"

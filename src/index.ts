@@ -4,8 +4,7 @@ import * as OB from 'fp-ts-rxjs/lib/Observable'
 import { Key } from 'ts-key-enum'
 import { windowRect$ } from 'game-ts/dist/Window'
 import * as C from 'graphics-ts/lib/Canvas'
-import { error } from 'fp-ts/lib/Console'
-import { gameLoop$ } from 'game-ts/dist/Render'
+import { renderWithState$ } from 'game-ts/dist/Render'
 import { initializeGameObject } from './logic/Initialize'
 import { input } from './logic/Input'
 import { draw } from './logic/Draw'
@@ -18,9 +17,7 @@ r.merge(
     initializeGameObject,
     OB.fromTask,
     OB.compact,
-    OB.chain((initialState) =>
-      gameLoop$(initialState, input, draw, canvasId, () => error('canvas not found')),
-    ),
+    OB.chain((initialState) => renderWithState$(initialState, input, draw, canvasId)),
   ),
   pipe(
     C.getCanvasElementById(canvasId),
