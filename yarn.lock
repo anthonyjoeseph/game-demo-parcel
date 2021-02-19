@@ -2948,10 +2948,10 @@ fp-ts-contrib@^0.1.21:
   resolved "https://registry.yarnpkg.com/fp-ts-contrib/-/fp-ts-contrib-0.1.21.tgz#9a2b6c108ad9487922890f46219d5639f3cacc66"
   integrity sha512-Wa1wXpeDDVyPiTZaxbas+y6pigKxiZlf/xzUBhFJ5bPNAsOrzNfFeQliu3bIH9ZjYWrt6HIMuNXAejPh6oSSkA==
 
-fp-ts-rxjs@^0.6.11:
-  version "0.6.11"
-  resolved "https://registry.yarnpkg.com/fp-ts-rxjs/-/fp-ts-rxjs-0.6.11.tgz#675b2642f1469b6999d0015f0189e3a30e0779ea"
-  integrity sha512-j/ZAIhxH+muBBrkn3pezeTAcojD7Ao4uoC/5cAeGYVqq/RcvXP7Ac0E8rfBFzVmzx/LgBH0KyWJwIFQbTc/KJQ==
+fp-ts-rxjs@^0.6.13:
+  version "0.6.13"
+  resolved "https://registry.yarnpkg.com/fp-ts-rxjs/-/fp-ts-rxjs-0.6.13.tgz#640848ce3eb752b4006e3d9407e377f447361ef9"
+  integrity sha512-h5IH0BvkxEkEpZLJo3MMKVJvYAFgftaO39xLq67FOJh1Kwb3jPgiYiJGaSvKomP0ykHF3aJA0iFm7abXPBFIgQ==
 
 fp-ts-std@^0.7.0:
   version "0.7.0"
@@ -2998,16 +2998,16 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
-game-ts@^0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/game-ts/-/game-ts-0.7.6.tgz#ec3aee71a4d3046dcf36991129361dc681c90547"
-  integrity sha512-kMO8xoEbmqA448j26HgWPLfq71AeubJJeGQ5ineDKkwaePQq9W8iw/QNgvZOa2A8E6aYSHJCOwW+gXe5LGCYfg==
+game-ts@^0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/game-ts/-/game-ts-0.7.7.tgz#99a08408ad0855313537e16fc67e9416e53325eb"
+  integrity sha512-g2xcSoJ8zyB4rscU2jJxr2fMTZKM+IiYKpQ3ohn132JU3kf4R/1tW2reNctAnPFJpoWnSQGoymLw3Omt1bUn7w==
   dependencies:
     "@juggle/resize-observer" "^3.2.0"
     assert "^2.0.0"
     fetch-img "^0.1.0"
     fp-ts-contrib "^0.1.21"
-    fp-ts-rxjs "^0.6.11"
+    fp-ts-rxjs "^0.6.13"
     fp-ts-std "^0.7.0"
     graphics-ts "^1.1.0"
     io-ts "^2.2.13"
